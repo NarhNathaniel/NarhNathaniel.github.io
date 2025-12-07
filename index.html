@@ -18,8 +18,25 @@
         async function searchMusic() {
             const query = document.getElementById('searchInput').value;
             const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '<p>Searching...</p>'; // Loading text
-
+            card.innerHTML = `
+                        <img src="${song.artworkUrl100.replace('100x100', '400x400')}" alt="Album Art">
+                        <h3>${song.trackName}</h3>
+                        <p>${song.artistName}</p>
+                        <audio controls src="${song.previewUrl}"></audio>
+                        <a href="${song.trackViewUrl}" target="_blank" style="
+                            display: block; 
+                            margin-top: 10px; 
+                            background: #ff2d55; 
+                            color: white; 
+                            padding: 8px; 
+                            text-decoration: none; 
+                            border-radius: 5px; 
+                            font-size: 14px;
+                            text-align: center;">
+                            Listen to Full Song ↗
+                        </a>
+                    `;
+                    resultsDiv.appendChild(card);
             if (!query) {
                 resultsDiv.innerHTML = '';
                 return;
