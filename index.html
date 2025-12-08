@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
+    <title>Nate's Wave</title>
     <style>
         /* =========================================
-           1. SLIDESHOW BACKGROUND (Faster & Fixed)
+           1. SLIDESHOW BACKGROUND (Fixed & Optimized)
            ========================================= */
-        body{ 
+        body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: #121212; 
             color: white; 
@@ -16,7 +16,7 @@
             padding: 40px 20px; 
             min-height: 100vh;
             margin: 0;
-            overflow-x: hidden; /* Prevents scrollbars from appearing */
+            overflow-x: hidden; 
         }
 
         .slideshow {
@@ -25,12 +25,12 @@
             height: 100%;
             top: 0;
             left: 0;
-            /* CRITICAL: Puts images behind everything */
             z-index: -1; 
             list-style: none; 
             margin: 0;
             padding: 0;
-            opacity: 0.4; /* Set transparency (0.1 to 1.0) */
+            /* Adjust this if the background is too dark/bright */
+            opacity: 0.4; 
         }
 
         .slideshow li {
@@ -43,51 +43,45 @@
             background-position: center;
             background-repeat: no-repeat;
             opacity: 0; 
-            
-            /* FASTER SPEED: 12 seconds total loop (3 secs per image) */
+            /* 12 seconds total loop (3 secs per image) */
             animation: imageAnimation 12s linear infinite; 
         }
 
-        /* === IMAGE LIST (Updated Speed) === */
+        /* === YOUR SPECIFIC IMAGES === */
+        /* Ensure these match your GitHub filenames exactly! */
         
-        /* Image 1 */
         .slideshow li:nth-child(1) { 
             background-image: url('kwekuteye.JPG'); 
             animation-delay: 0s; 
         }
         
-        /* Image 2 (Starts at 3s) */
         .slideshow li:nth-child(2) { 
-            background-image: url('glorified.jpg'); 
+            background-image: url('glorified.JPG'); 
             animation-delay: 3s; 
         }
         
-        /* Image 3 (Starts at 6s) */
         .slideshow li:nth-child(3) { 
-            background-image: url('sing.jpg'); 
+            background-image: url('sing.JPG'); 
             animation-delay: 6s; 
         }
 
-        /* Image 4 (Starts at 9s) */
         .slideshow li:nth-child(4) { 
             background-image: url('undignified.JPG'); 
             animation-delay: 9s; 
         }
 
-        /* NEW ANIMATION: Faster Transitions */
         @keyframes imageAnimation { 
             0% { opacity: 0; animation-timing-function: ease-in; }
             10% { opacity: 1; animation-timing-function: ease-out; } 
-            25% { opacity: 1; } /* Visible for shorter time */
-            35% { opacity: 0; } /* Fade out faster */
+            25% { opacity: 1; } 
+            35% { opacity: 0; } 
             100% { opacity: 0; }
         }
 
         /* =========================================
-           2. CONTENT LAYERING (Fixes Missing Buttons)
+           2. CONTENT STYLING
            ========================================= */
         
-        /* CRITICAL: This forces the search bar to sit ON TOP of images */
         .search-container, #results {
             position: relative; 
             z-index: 100; 
@@ -105,7 +99,7 @@
 
         input { 
             padding: 15px; 
-            width: 300px; 
+            width: 250px; /* Adjusted for mobile screens */
             border-radius: 30px; 
             border: none; 
             outline: none;
@@ -114,7 +108,7 @@
         }
 
         button { 
-            padding: 15px 30px; 
+            padding: 15px 25px; 
             border-radius: 30px; 
             border: none; 
             background-color: #ffffff; 
@@ -122,7 +116,7 @@
             cursor: pointer; 
             font-weight: bold; 
             font-size: 16px;
-            margin-left: 10px;
+            margin-left: 5px;
             transition: transform 0.2s, background-color 0.2s;
         }
 
@@ -151,11 +145,6 @@
             transition: transform 0.3s ease;
             opacity: 0;
             animation: fadeIn 0.5s forwards;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            background: rgba(0, 0, 0, 0.9);
         }
 
         .card img { 
@@ -197,9 +186,10 @@
         <li></li> <li></li> <li></li> <li></li> </ul>
 
     <div class="search-container">
-        <h1 style="margin-top: 0; text-shadow: 2px 2px 4px #000000;">
+        <h1 style="margin-top: 0; margin-bottom: 15px; text-shadow: 2px 2px 4px #000000;">
             <strong>NATE'S WAVE</strong>
         </h1>
+        
         <input type="text" id="searchInput" placeholder="Type a song name...">
         <button onclick="searchMusic()">Go</button>
     </div>
@@ -210,7 +200,7 @@
         async function searchMusic() {
             const query = document.getElementById('searchInput').value;
             const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '<p style="font-size:18px;">Searching...</p>';
+            resultsDiv.innerHTML = '<p style="font-size:18px;">Searching the waves...</p>';
 
             if (!query) {
                 resultsDiv.innerHTML = '';
@@ -218,22 +208,24 @@
             }
 
             try {
-                // I added a "timestamp" to force the phone to get new data every time
-                const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=12&timestamp=${new Date().getTime()}`;
-                
-                const response = await fetch(url);
-                
-                // If the internet connection failed completely
+                // === THE MOBILE FIX IS HERE ===
+                // We use "api.allorigins.win" to route the request securely.
+                // This bypasses the mobile security block.
+                const originalUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=12`;
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(originalUrl)}`;
+
+                const response = await fetch(proxyUrl);
+
                 if (!response.ok) {
-                    throw new Error(`Server Error: ${response.status}`);
+                    throw new Error(`Network Error: ${response.status}`);
                 }
 
                 const data = await response.json();
 
                 resultsDiv.innerHTML = '';
 
-                if (data.results.length === 0) {
-                    resultsDiv.innerHTML = '<p>No songs found. Try a different name.</p>';
+                if (data.resultsCount === 0) {
+                    resultsDiv.innerHTML = '<p>No songs found. Try a different spelling.</p>';
                     return;
                 }
 
@@ -271,11 +263,9 @@
                 });
             } catch (error) {
                 console.error(error);
-                // THIS IS THE IMPORTANT CHANGE:
-                // It will now print the exact error message on your screen
-                resultsDiv.innerHTML = `<p style="color: #ff5555; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 10px;">
-                    Error: ${error.message}<br>
-                    <small>Type: ${error.name}</small>
+                resultsDiv.innerHTML = `<p style="color: #ff5555; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 10px;">
+                    Something went wrong.<br>
+                    <small>${error.message}</small>
                 </p>`;
             }
         }
@@ -286,23 +276,6 @@
             }
         });
     </script>
-     <section>
-        <h2>Connect With Me</h2>
-        <p>Find me on social media:</p>
-        <ul>
-            <li><a href="https://www.instagram.com/niinoye_01?igsh=ZGUzMzM3NWJiOQ==" target="_blank">My Instagram</a></li>
-            
-            <li><a href="https://www.linkedin.com/in/nathaniel-narh-b4baa22b3" target="_blank">My LinkedIn Profile</a></li>
-            
-            <li><a href="https://www.youtube.com/@niinoye_01" target="_blank">My Youtube channel</a></li>
-            
-            <li><a href="https://www.tiktok.com/@niinoye_01?igsh" target="_blank">Tiktok</a></li>
-        </ul>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Designed by Narh Nathaniel</p>
-    </footer>
 
 </body>
 </html>
