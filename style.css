@@ -37,7 +37,7 @@ body {
     background-size: cover; 
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0; /* Start hidden */
+    opacity: 3; /* Start hidden */
     z-index: 0;
     
     /* The Animation: Name, Duration, Infinite loop */
