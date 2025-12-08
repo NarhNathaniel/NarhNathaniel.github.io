@@ -6,9 +6,11 @@
     <title>Search</title>
     <style>
         /* =========================================
-           1. SLIDESHOW BACKGROUND (The Ghost Layer)
+           1. SLIDESHOW BACKGROUND (Faster & Fixed)
            ========================================= */
-        body { 
+        body
+        <h1><strong>NATE'S WAVE<strong/><h1/>
+        { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: #121212; 
             color: white; 
@@ -16,7 +18,7 @@
             padding: 40px 20px; 
             min-height: 100vh;
             margin: 0;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevents scrollbars from appearing */
         }
 
         .slideshow {
@@ -25,11 +27,12 @@
             height: 100%;
             top: 0;
             left: 0;
+            /* CRITICAL: Puts images behind everything */
             z-index: -1; 
             list-style: none; 
             margin: 0;
             padding: 0;
-            opacity: 0.3; /* Adjust opacity here */
+            opacity: 0.4; /* Set transparency (0.1 to 1.0) */
         }
 
         .slideshow li {
@@ -42,51 +45,58 @@
             background-position: center;
             background-repeat: no-repeat;
             opacity: 0; 
-            z-index: 0;
-            /* 4 images x 6 seconds each = 24s total loop */
-            animation: imageAnimation 24s linear infinite; 
+            
+            /* FASTER SPEED: 12 seconds total loop (3 secs per image) */
+            animation: imageAnimation 12s linear infinite; 
         }
 
-        /* === CORRECTED FILE NAMES (Case Sensitive!) === */
+        /* === IMAGE LIST (Updated Speed) === */
         
-        /* Image 1: kwekuteye.JPG */
+        /* Image 1 */
         .slideshow li:nth-child(1) { 
             background-image: url('kwekuteye.JPG'); 
             animation-delay: 0s; 
         }
         
-        /* Image 2: glorified.JPG */
+        /* Image 2 (Starts at 3s) */
         .slideshow li:nth-child(2) { 
             background-image: url('glorified.JPG'); 
-            animation-delay: 6s; 
+            animation-delay: 3s; 
         }
         
-        /* Image 3: sing.JPG */
+        /* Image 3 (Starts at 6s) */
         .slideshow li:nth-child(3) { 
             background-image: url('sing.JPG'); 
-            animation-delay: 12s; 
+            animation-delay: 6s; 
         }
 
-        /* Image 4: undignified.JPG */
+        /* Image 4 (Starts at 9s) */
         .slideshow li:nth-child(4) { 
             background-image: url('undignified.JPG'); 
-            animation-delay: 18s; 
+            animation-delay: 9s; 
         }
 
-        /* Animation Logic */
+        /* NEW ANIMATION: Faster Transitions */
         @keyframes imageAnimation { 
             0% { opacity: 0; animation-timing-function: ease-in; }
-            8% { opacity: 1; animation-timing-function: ease-out; } 
-            25% { opacity: 1; } 
-            33% { opacity: 0; } 
+            10% { opacity: 1; animation-timing-function: ease-out; } 
+            25% { opacity: 1; } /* Visible for shorter time */
+            35% { opacity: 0; } /* Fade out faster */
             100% { opacity: 0; }
         }
 
         /* =========================================
-           2. REST OF THE SITE STYLES
+           2. CONTENT LAYERING (Fixes Missing Buttons)
            ========================================= */
+        
+        /* CRITICAL: This forces the search bar to sit ON TOP of images */
+        .search-container, #results {
+            position: relative; 
+            z-index: 100; 
+        }
+
         .search-container {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             padding: 20px;
             border-radius: 50px;
             display: inline-block;
@@ -134,7 +144,7 @@
         }
 
         .card { 
-            background: rgba(0, 0, 0, 0.6); 
+            background: rgba(0, 0, 0, 0.7); 
             padding: 15px; 
             border-radius: 15px; 
             text-align: left; 
@@ -147,7 +157,7 @@
 
         .card:hover {
             transform: translateY(-10px);
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
         }
 
         .card img { 
