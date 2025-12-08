@@ -3,53 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Song Search Engine</title>
+    <title>Search</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1> NATEWAVE🎵 </h1>
-    <input type="text" id="searchInput" placeholder="Search for a song...">
-    <button onclick="searchMusic()">Search</button>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Type a song name...">
+        <button onclick="searchMusic()">Go</button>
+    </div>
 
     <div id="results"></div>
 
     <script>
-        async function searchMusic() {
-            const query = document.getElementById('searchInput').value;
-            const resultsDiv = document.getElementById('results');
-            card.innerHTML = `
-                        <img src="${song.artworkUrl100.replace('100x100', '400x400')}" alt="Album Art">
-                        <h3>${song.trackName}</h3>
-                        <p>${song.artistName}</p>
-                        <audio controls src="${song.previewUrl}"></audio>
-                        <a href="${song.trackViewUrl}" target="_blank" style="
-                            display: block; 
-                            margin-top: 10px; 
-                            background: #ff2d55; 
-                            color: white; 
-                            padding: 8px; 
-                            text-decoration: none; 
-                            border-radius: 5px; 
-                            font-size: 14px;
-                            text-align: center;">
-                            Listen to Full Song ↗
-                        </a>
-                    `;
-                    resultsDiv.appendChild(card);
-            if (!query) {
-                resultsDiv.innerHTML = '';
-                return;
-            }
-
-            try {
-                // Fetch data from iTunes Search API
-                const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=10`);
-                const data = await response.json();
-
-                resultsDiv.innerHTML = ''; // Clear loading text
-
-                <script>
         async function searchMusic() {
             const query = document.getElementById('searchInput').value;
             const resultsDiv = document.getElementById('results');
@@ -69,6 +35,7 @@
                 data.results.forEach((song, index) => {
                     const card = document.createElement('div');
                     card.className = 'card';
+                    // Animation delay
                     card.style.animationDelay = `${index * 0.1}s`;
                     
                     // Create a YouTube Search Link
@@ -81,17 +48,18 @@
                         <p>${song.artistName}</p>
                         <audio controls src="${song.previewUrl}"></audio>
                         
-                        <div style="margin-top: 15px; display: flex; gap: 10px;">
+                        <div style="margin-top: 15px;">
                             <a href="${youtubeUrl}" target="_blank" style="
-                                flex: 1;
-                                background: #FF0000; 
+                                display: block;
+                                background: #ff0000; 
                                 color: white; 
                                 padding: 10px; 
                                 text-decoration: none; 
                                 border-radius: 5px; 
                                 font-size: 14px;
                                 text-align: center;
-                                font-weight: bold;">
+                                font-weight: bold;
+                                transition: background 0.3s;">
                                 ▶ Get Full Song
                             </a>
                         </div>
@@ -104,44 +72,13 @@
             }
         }
         
+        // Allow pressing Enter key
         document.getElementById("searchInput").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 searchMusic();
             }
         });
     </script>
-                    resultsDiv.appendChild(card);
-                });
-            } catch (error) {
-                console.error(error);
-                resultsDiv.innerHTML = '<p>Something went wrong. Please try again.</p>';
-            }
-        }
-        
-        // Allow pressing "Enter" to search
-        document.getElementById("searchInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                searchMusic();
-            }
-        });
-    </script>
-    <section>
-        <h2>Connect With Me</h2>
-        <p>Find me on social media or check out these cool sites:</p>
-        <ul>
-            <li><a href="https://www.instagram.com/niinoye_01?igsh=ZGUzMzM3NWJiOQ==" target="_blank">My Instagram</a></li>
-            
-            <li><a href="https://www.linkedin.com/in/nathaniel-narh-b4baa22b3" target="_blank">My LinkedIn Profile</a></li>
-            
-            <li><a href="https://www.youtube.com/@niinoye_01" target="_blank">My Youtube channel</a></li>
-            
-            <li><a href="https://www.tiktok.com/@niinoye_01?igsh" target="_blank">Tiktok</a></li>
-        </ul>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Designed by Narh Nathaniel</p>
-    </footer>
 
 </body>
 </html>
